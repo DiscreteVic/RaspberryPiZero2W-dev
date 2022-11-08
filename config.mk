@@ -1,6 +1,6 @@
 
 # BUILD VARIABLES
-
+GCC=arm-none-eabi-
 
 # DEBUGGING VARIABLES
 ENV_DIR=env
