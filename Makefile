@@ -2,18 +2,21 @@ include config.mk
 
 APP=main
 
+CFLAGS = -mtune=cortex-a53 -Wall -O2 -ffreestanding
+LDFLAGS =-nostdlib -T src/linker.ld
+
 build: clean
 	@ mkdir -p build/
-	@ $(ARCH)gcc -mtune=cortex-a53 -ffreestanding -c -o $(BUILD_DIR)/$(APP).o -Iinclude $(SRC_DIR)/$(APP).c 
-	@ $(ARCH)gcc --entry=main -ffreestanding -nostdlib $(BUILD_DIR)/$(APP).o -o $(BUILD_DIR)/$(APP)
-	@ $(ARCH)objcopy -S -O binary $(BUILD_DIR)/$(APP) $(BUILD_DIR)/$(APP).bin
+	 $(ARCH)gcc $(CFLAGS) -c $(SRC_DIR)/$(APP).c -o $(BUILD_DIR)/$(APP).o  
+	 $(ARCH)ld $(LDFLAGS) $(BUILD_DIR)/$(APP).o -o $(BUILD_DIR)/$(APP).elf
+	 $(ARCH)objcopy -O binary $(BUILD_DIR)/$(APP).elf $(BUILD_DIR)/$(APP).bin
 
 
 assemble: 
 	@ mkdir -p build/
-	@ $(GCC)-as -o build/$(APP).o $(APP).asm
-	@ $(GCC)-ld -o build/$(APP) build/$(APP).o
-	@ $(GCC)-objcopy -S -O binary build/$(APP) build/$(APP).bin
+	@ $(ARCH)as -o build/$(APP).o $(APP).asm
+	@ $(ARCH)ld -o build/$(APP) build/$(APP).o
+	@ $(ARCH)objcopy -S -O binary build/$(APP) build/$(APP).bin
 
 
 openocd:
