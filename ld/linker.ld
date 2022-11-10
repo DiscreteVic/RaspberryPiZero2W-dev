@@ -1,4 +1,4 @@
-ENTRY(main)
+ENTRY(_start)
 
 SECTIONS 
 {
@@ -22,7 +22,7 @@ SECTIONS
 	}
 	. = ALIGN(4096);
 	__rodata_end = .;
-
+	
 	__data_start = .;
 	.data : 
 	{
