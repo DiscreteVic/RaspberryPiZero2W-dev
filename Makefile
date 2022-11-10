@@ -2,14 +2,19 @@ include config.mk
 
 APP=main
 
-CFLAGS = -mtune=cortex-a53 -Wall -O2 -ffreestanding
-LDFLAGS =-nostdlib -T src/linker.ld
+CFLAGS = -mtune=cortex-a53 -Wall -O2 -ffreestanding -Iinc
+LDFLAGS =-nostdlib -T ld/linker.ld
 
-build: clean
-	@ mkdir -p build/
-	@ $(ARCH)gcc $(CFLAGS) -c $(SRC_DIR)/$(APP).c -o $(BUILD_DIR)/$(APP).o  
-	@ $(ARCH)ld $(LDFLAGS) $(BUILD_DIR)/$(APP).o -o $(BUILD_DIR)/$(APP).elf
+all: clean build
+
+build: bcm2835.o  main.o
+	@ $(ARCH)ld $(LDFLAGS) $(BUILD_DIR)/*.o -o $(BUILD_DIR)/$(APP).elf
 	@ $(ARCH)objcopy -O binary $(BUILD_DIR)/$(APP).elf $(BUILD_DIR)/$(APP).bin
+
+
+%.o: src/%.c
+	@ mkdir -p build/
+	@ $(ARCH)gcc $(CFLAGS) -c $< -o build/$@
 
 
 assemble: 
