@@ -16,7 +16,7 @@ _start:
     mov r10, #0
     mov r11, #0
     mov r12, #0
-    mov sp, #0x9000 // BSS ADDRESS
+    mov sp, #0xC000 // BSS ADDRESS
     mov lr, #0
 
     b main

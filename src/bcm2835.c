@@ -1,6 +1,7 @@
 
 #include "bcm2835.h"
 
+// BARRIERS NOT SET - TO DO
 void setWordRegister(uint32_t addr, uint32_t value){
     *((volatile uint32_t*)addr) = (uint32_t)value;
 }
@@ -9,7 +10,55 @@ uint32_t getWordRegister(uint32_t addr){
     return *((volatile uint32_t*)addr);
 }
 
-void configUART(){
+uint8_t BCM2835_configGPIOPin(uint8_t pin, uint8_t funct){
+	uint32_t tmpReg;
+	uint8_t funSelRegOff = (pin / 10);
+	uint8_t funSelReg = funSelRegOff * 0x04U;
+	uint32_t funSelRegAddr = GPIO_FUN_SEL_REG + funSelReg;
+	
+	if(pin <= 53){
+		tmpReg = getWordRegister(funSelRegAddr);
+		tmpReg &= !(((uint32_t)0b111) << ((pin - (10*funSelRegOff))*3));
+		setWordRegister(funSelRegAddr, tmpReg |= ((uint32_t)funct) << ((pin - (10*funSelRegOff)))*3);
+	}
+	else{
+		return 1;
+	}
+	return 0;
+}
+
+uint8_t BCM2835_setGPIOPin(uint8_t pin){
+	
+	if(pin <= 31){
+		setWordRegister(GPIO_OUT_SET0_REG, 0x1U << pin);
+	}	
+	else if(pin <= 53){
+		setWordRegister(GPIO_OUT_SET1_REG, 0x1U << (pin - 31));
+	}
+	else{
+		return 1;
+	}
+	return 0;
+	
+}
+
+uint8_t BCM2835_clearGPIOPin(uint8_t pin){
+	
+	if(pin <= 31){
+		setWordRegister(GPIO_OUT_CLR0_REG, 0x1U << pin);
+	}	
+	else if(pin <= 53){
+		setWordRegister(GPIO_OUT_CLR1_REG, 0x1U << (pin - 31));
+	}
+	else{
+		return 1;
+	}
+	return 0;
+	
+	
+}
+
+void BCM2835_configUART(){
 	uint32_t r;
     // UART1
     // Enable UART
@@ -42,7 +91,7 @@ void configUART(){
 	setWordRegister(AUX_MU_CNTL_REG, r);
 }
 
-void sendByteUART(uint8_t b) {
+void BCM2835_sendByteUART(uint8_t b) {
 
     // Check if TX is available
 	while ((getWordRegister(AUX_MU_LSR_REG) & 0x20) == 0);
@@ -51,7 +100,7 @@ void sendByteUART(uint8_t b) {
 
 }
 
-uint8_t receiveByteUART(){
+uint8_t BCM2835_receiveByteUART(){
 
 	uint8_t r;
 
