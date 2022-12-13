@@ -71,5 +71,6 @@ void BCM2835_configUART();
 void BCM2835_sendByteUART(uint8_t b);
 uint8_t BCM2835_receiveByteUART();
 
+void BCM2835_soft_waitms(uint32_t milis);
 
 #endif 

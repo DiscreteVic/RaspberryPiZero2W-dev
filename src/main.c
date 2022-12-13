@@ -5,12 +5,19 @@
 #define BCM2835_SPI0_BASE 0x3F204000
 
 void main(void) {
-	uint32_t i = 300000000;
 	
 
 	BCM2835_configGPIOPin(11,GPIO_FUN_OUT);
 	BCM2835_setGPIOPin(11);
-	while(i>0)i--;
+	BCM2835_soft_waitms(1);
+	BCM2835_clearGPIOPin(11);
+	BCM2835_soft_waitms(2);
+	BCM2835_setGPIOPin(11);
+	BCM2835_soft_waitms(4);
+	BCM2835_clearGPIOPin(11);
+	BCM2835_soft_waitms(8);
+	BCM2835_setGPIOPin(11);
+	BCM2835_soft_waitms(16);
 	BCM2835_clearGPIOPin(11);
     //configUART();
 

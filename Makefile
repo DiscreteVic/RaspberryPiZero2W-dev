@@ -8,7 +8,7 @@ LDFLAGS =-nostdlib -T ld/linker.ld
 all: clean build
 
 build: bcm2835.o  main.o
-	@ $(ARCH)as -o build/ldr.o env/bootloader/ldr.s
+	@ $(ARCH)as -o  build/ldr.o env/bootloader/ldr.s
 	@ $(ARCH)ld $(LDFLAGS) $(BUILD_DIR)/*.o -o $(BUILD_DIR)/$(APP).elf
 	@ $(ARCH)objcopy -O binary $(BUILD_DIR)/$(APP).elf $(BUILD_DIR)/$(APP).bin
 

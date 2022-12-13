@@ -112,3 +112,16 @@ uint8_t BCM2835_receiveByteUART(){
 	return r;
 
 }
+
+
+ void __attribute__((optimize(0)))  BCM2835_soft_waitms(uint32_t milis){
+// void  BCM2835_soft_waitms(uint32_t milis){
+	//VALUE OBTAINED EXPERIMENTALLY
+	uint32_t i, j;
+
+	for(j=milis; j > 0; j--){
+		for(i=1916; i > 0; i--){
+		}
+	}
+
+}
