@@ -17,8 +17,8 @@
 #define GPIO_OUT_CLR0_REG           GPIO_BASE_ADDR + 0x28U
 #define GPIO_OUT_CLR1_REG           GPIO_BASE_ADDR + 0x2CU
 
-#define GPIO_FUN_IN                0x000U
-#define GPIO_FUN_OUT                 0x001U
+#define GPIO_FUN_IN                 0x000U
+#define GPIO_FUN_OUT                0x001U
 #define GPIO_FUN_ALT0               0x100U
 #define GPIO_FUN_ALT1               0x101U
 #define GPIO_FUN_ALT2               0x110U
@@ -60,7 +60,7 @@
 void setWordRegister(uint32_t addr, uint32_t value);
 uint32_t getWordRegister(uint32_t addr);
 
-uint8_t BCM2835_configGPIOPin(uint8_t pin, uint8_t funct);
+uint8_t BCM2835_configGPIOPin(uint8_t pin, uint16_t funct);
 
 uint8_t BCM2835_setGPIOPin(uint8_t pin);
 
