@@ -100,6 +100,32 @@ void BCM2835_sendByteUART(uint8_t b) {
 
 }
 
+void BCM2835_printArrayUART(uint8_t *arr) {
+	uint8_t i;
+
+	for(i = 0; arr[i] != '\0'; i++){
+		BCM2835_sendByteUART(arr[i]);
+	}
+
+
+}
+
+void BCM2835_printRegisterUART(uint32_t reg) {
+	
+	uint8_t i;
+
+	for(i = 32; i > 0; i-=4){
+		if(((uint8_t)(reg >> (i-4)) & 0xFU) < 0xAU){
+			BCM2835_sendByteUART(((uint8_t)(reg >> (i-4)) & 0xFU) + 0x30U);
+		}
+		else{
+			BCM2835_sendByteUART(((uint8_t)(reg >> (i-4)) & 0xFU) + 0x37U);
+		}
+	}
+
+
+}
+
 uint8_t BCM2835_receiveByteUART(){
 
 	uint8_t r;
@@ -114,7 +140,7 @@ uint8_t BCM2835_receiveByteUART(){
 }
 
 
- void __attribute__((optimize(0)))  BCM2835_soft_waitms(uint32_t milis){
+void __attribute__((optimize(0)))  BCM2835_soft_waitms(uint32_t milis){
 // void  BCM2835_soft_waitms(uint32_t milis){
 	//CONSTANT VALUE OBTAINED EXPERIMENTALLY
 	uint32_t i, j;

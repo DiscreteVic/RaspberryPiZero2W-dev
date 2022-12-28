@@ -57,6 +57,16 @@
 #define GPFSEL1			            GPFSELx_BASE_ADDR + 0x04U
 
 
+#define SYS_TIM_BASE_ADDR           PERIPHERALS_BASE_ADDR + 0x00003000U 
+#define SYS_TIM_CS                  SYS_TIM_BASE_ADDR + 0x0U
+#define SYS_TIM_CLO                 SYS_TIM_BASE_ADDR + 0x4U
+#define SYS_TIM_CHI                 SYS_TIM_BASE_ADDR + 0x8U
+#define SYS_TIM_C0                  SYS_TIM_BASE_ADDR + 0xCU
+#define SYS_TIM_C1                  SYS_TIM_BASE_ADDR + 0x10U
+#define SYS_TIM_C2                  SYS_TIM_BASE_ADDR + 0x14U
+#define SYS_TIM_C3                  SYS_TIM_BASE_ADDR + 0x18U
+
+
 void setWordRegister(uint32_t addr, uint32_t value);
 uint32_t getWordRegister(uint32_t addr);
 
@@ -68,8 +78,14 @@ uint8_t BCM2835_clearGPIOPin(uint8_t pin);
 
 
 void BCM2835_configUART();
+
 void BCM2835_sendByteUART(uint8_t b);
+
 uint8_t BCM2835_receiveByteUART();
+
+void BCM2835_printArrayUART(uint8_t *arr);
+
+void BCM2835_printRegisterUART(uint32_t reg);
 
 void BCM2835_soft_waitms(uint32_t milis);
 

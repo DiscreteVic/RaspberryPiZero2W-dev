@@ -5,7 +5,7 @@
       "Application": "Pcbnew",
       "Version": "6.0.9-8da3e8f707~117~ubuntu22.04.1"
     },
-    "CreationDate": "2022-12-18T22:44:04+01:00"
+    "CreationDate": "2022-12-19T08:44:55+01:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
@@ -44,6 +44,26 @@
       "FilePolarity": "Positive"
     },
     {
+      "Path": "rpi-dev-board-F_Adhesive.gbr",
+      "FileFunction": "Glue,Top",
+      "FilePolarity": "Positive"
+    },
+    {
+      "Path": "rpi-dev-board-B_Adhesive.gbr",
+      "FileFunction": "Glue,Bot",
+      "FilePolarity": "Positive"
+    },
+    {
+      "Path": "rpi-dev-board-F_Paste.gbr",
+      "FileFunction": "SolderPaste,Top",
+      "FilePolarity": "Positive"
+    },
+    {
+      "Path": "rpi-dev-board-B_Paste.gbr",
+      "FileFunction": "SolderPaste,Bot",
+      "FilePolarity": "Positive"
+    },
+    {
       "Path": "rpi-dev-board-F_Silkscreen.gbr",
       "FileFunction": "Legend,Top",
       "FilePolarity": "Positive"
@@ -64,6 +84,26 @@
       "FilePolarity": "Negative"
     },
     {
+      "Path": "rpi-dev-board-User_Drawings.gbr",
+      "FileFunction": "Other,User",
+      "FilePolarity": "Positive"
+    },
+    {
+      "Path": "rpi-dev-board-User_Comments.gbr",
+      "FileFunction": "Other,User",
+      "FilePolarity": "Positive"
+    },
+    {
+      "Path": "rpi-dev-board-User_Eco1.gbr",
+      "FileFunction": "Other,User",
+      "FilePolarity": "Positive"
+    },
+    {
+      "Path": "rpi-dev-board-User_Eco2.gbr",
+      "FileFunction": "Other,User",
+      "FilePolarity": "Positive"
+    },
+    {
       "Path": "rpi-dev-board-Edge_Cuts.gbr",
       "FileFunction": "Profile",
       "FilePolarity": "Positive"
@@ -71,6 +111,11 @@
     {
       "Path": "rpi-dev-board-F_Fab.gbr",
       "FileFunction": "AssemblyDrawing,Top",
+      "FilePolarity": "Positive"
+    },
+    {
+      "Path": "rpi-dev-board-B_Fab.gbr",
+      "FileFunction": "AssemblyDrawing,Bot",
       "FilePolarity": "Positive"
     }
   ],
