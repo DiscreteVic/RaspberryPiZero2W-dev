@@ -89,4 +89,8 @@ void BCM2835_printRegisterUART(uint32_t reg);
 
 void BCM2835_soft_waitms(uint32_t milis);
 
+void BCM2835_hard_wait100us(uint32_t hund_us);
+
+void BCM2835_hard_waitms(uint32_t milis);
+
 #endif 

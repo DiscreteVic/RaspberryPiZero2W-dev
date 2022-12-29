@@ -13,12 +13,11 @@ uint32_t getWordRegister(uint32_t addr){
 uint8_t BCM2835_configGPIOPin(uint8_t pin, uint16_t funct){ // TO DO ERROR WRITING same reg twice
 	uint32_t tmpReg;
 	uint8_t funSelRegOff = (pin / 10);
-	uint8_t funSelReg = funSelRegOff * 0x04U;
-	uint32_t funSelRegAddr = GPIO_FUN_SEL_REG + funSelReg;
+	uint32_t funSelRegAddr = GPIO_FUN_SEL_REG + (funSelRegOff * 0x04U);
 	
 	if(pin <= 53){
 		tmpReg = getWordRegister(funSelRegAddr);
-		tmpReg &= !(((uint32_t)0b111) << ((pin - (10*funSelRegOff))*3));
+		tmpReg &= ~(((uint32_t)0b111) << ((pin - (10*funSelRegOff))*3));
 		setWordRegister(funSelRegAddr, tmpReg |= ((uint32_t)funct) << ((pin - (10*funSelRegOff)))*3);
 	}
 	else{
@@ -147,6 +146,43 @@ void __attribute__((optimize(0)))  BCM2835_soft_waitms(uint32_t milis){
 
 	for(j=milis; j > 0; j--){
 		for(i=1916; i > 0; i--){
+		}
+	}
+
+}
+
+void __attribute__((optimize(0)))  BCM2835_hard_wait100us(uint32_t hund_us){
+
+	uint32_t timestampA, timestampB;
+
+	uint32_t i;
+
+	for(i=hund_us; i > 0; i--){
+	    timestampA = getWordRegister(SYS_TIM_CLO);
+	    timestampB = 0;
+		while (timestampB < 100)
+		{
+			if(getWordRegister(SYS_TIM_CLO) >= timestampA) timestampB = getWordRegister(SYS_TIM_CLO) - timestampA;
+			else timestampB = 0xFFFFFFFFU - (timestampA - getWordRegister(SYS_TIM_CLO));
+		}
+	}
+
+}
+
+void __attribute__((optimize(0)))  BCM2835_hard_waitms(uint32_t milis){
+
+
+	uint32_t timestampA, timestampB = 0;
+
+	uint32_t i;
+
+	for(i=milis; i > 0; i--){
+	    timestampA = getWordRegister(SYS_TIM_CLO);
+	    timestampB = 0;
+		while (timestampB < 1000)
+		{
+			if(getWordRegister(SYS_TIM_CLO) >= timestampA) timestampB = getWordRegister(SYS_TIM_CLO) - timestampA;
+			else timestampB = 0xFFFFFFFFU - (timestampA - getWordRegister(SYS_TIM_CLO));
 		}
 	}
 
