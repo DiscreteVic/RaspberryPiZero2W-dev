@@ -99,7 +99,7 @@ void BCM2835_sendByteUART(uint8_t b) {
 
 }
 
-void BCM2835_printArrayUART(uint8_t *arr) {
+void BCM2835_printStringUART(uint8_t *arr) {
 	uint8_t i;
 
 	for(i = 0; arr[i] != '\0'; i++){

@@ -83,7 +83,7 @@ void BCM2835_sendByteUART(uint8_t b);
 
 uint8_t BCM2835_receiveByteUART();
 
-void BCM2835_printArrayUART(uint8_t *arr);
+void BCM2835_printStringUART(uint8_t *arr);
 
 void BCM2835_printRegisterUART(uint32_t reg);
 
