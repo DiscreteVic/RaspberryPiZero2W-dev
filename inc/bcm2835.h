@@ -67,6 +67,32 @@
 #define SYS_TIM_C3                  SYS_TIM_BASE_ADDR + 0x18U
 
 
+#define MAILBOX_BASE                    PERIPHERALS_BASE_ADDR + 0xB880U
+#define MAILBOX_READ                    MAILBOX_BASE + 0x00U 
+#define MAILBOX_STATUS                  MAILBOX_BASE + 0x18U
+#define MAILBOX_WRITE                   MAILBOX_BASE + 0x20U 
+#define MAILBOX_PROPERTY_CHANNEL        8u
+#define MAILBOX_FRAMEBUFFER_CHANNEL     1U
+#define MAILBOX_FULL                    0x80000000U
+#define MAILBOX_EMPTY                   0x40000000U
+#define MAILBOX_RESPONSE_NOERROR        0x80000000U
+
+#define MAILBOX_TAGS_NUM            7U
+#define MAILBOX_TAG_BUFF_SIZE       32U //Tags with their elements
+#define MAILBOX_TAG_ID_SETPHYWH     0x48003 
+#define MAILBOX_TAG_ID_SETVIRWH     0x48004 
+#define MAILBOX_TAG_ID_SETDPTH      0x48005 
+#define MAILBOX_TAG_ID_SETPIXORD    0x48006 
+#define MAILBOX_TAG_ID_SETVIROFFS   0x48009 
+#define MAILBOX_TAG_ID_ALLBUFF      0x40001 
+#define MAILBOX_TAG_ID_GETPTCH      0x40008 
+#define MAILBOX_TAG_ID_BLNKSCR      0x40002 
+#define MAILBOX_TAG_REQUEST         0U
+#define MAILBOX_TAG_LAST            0U
+
+#define VIDEO_SCREEN_W                    640U
+#define VIDEO_SCREEN_H                    480U
+
 void setWordRegister(uint32_t addr, uint32_t value);
 uint32_t getWordRegister(uint32_t addr);
 
@@ -75,7 +101,6 @@ uint8_t BCM2835_configGPIOPin(uint8_t pin, uint16_t funct);
 uint8_t BCM2835_setGPIOPin(uint8_t pin);
 
 uint8_t BCM2835_clearGPIOPin(uint8_t pin);
-
 
 void BCM2835_configUART();
 
@@ -92,5 +117,17 @@ void BCM2835_soft_waitms(uint32_t milis);
 void BCM2835_hard_wait100us(uint32_t hund_us);
 
 void BCM2835_hard_waitms(uint32_t milis);
+
+uint32_t BCM2835_timerGetTimestamp();
+
+bool BCM2835_mailboxCall(uint8_t channel);
+
+void BCM2835_videoInit();
+
+void BCM2835_videoDrawPixel(uint32_t x, uint32_t y, uint32_t attr);
+
+void BCM2835_videoBlackScreen();
+
+void BCM2835_videoColorScreen(uint32_t col);
 
 #endif 
