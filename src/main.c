@@ -4,10 +4,7 @@
 
 
 void main(void) {
-    uint32_t ta,tb;
-
-
-    BCM2835_configUART();
+     BCM2835_configUART();
     BCM2835_videoInit();
 
     BCM2835_videoDrawPixel(200,200,0xAA00AAU);

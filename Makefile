@@ -8,25 +8,33 @@ LDFLAGS =-nostdlib -T ld/linker.ld
 all: clean build
 
 build: bcm2835.o  main.o
-	@ $(ARCH)as -o  build/ldr.o env/bootloader/ldr.s
-	@ $(ARCH)ld $(LDFLAGS) $(BUILD_DIR)/*.o -o $(BUILD_DIR)/$(APP).elf
-	@ $(ARCH)objcopy -O binary $(BUILD_DIR)/$(APP).elf $(BUILD_DIR)/$(APP).bin
+	@ $(GCC)as -o  build/ldr.o env/bootloader/ldr.s
+	@ $(GCC)ld $(LDFLAGS) $(BUILD_DIR)/*.o -o $(BUILD_DIR)/$(APP).elf
+	@ $(GCC)objcopy -O binary $(BUILD_DIR)/$(APP).elf $(BUILD_DIR)/$(APP).bin
 
 
 %.o: src/%.c
 	@ mkdir -p build/
-	@ $(ARCH)gcc $(CFLAGS) -c $< -o build/$@
+	@ $(GCC)gcc $(CFLAGS) -c $< -o build/$@
 
 
 assemble: 
 	@ mkdir -p build/
-	@ $(ARCH)as -o build/$(APP).o $(APP).s
-	@ $(ARCH)ld -o build/$(APP) build/$(APP).o
-	@ $(ARCH)objcopy -S -O binary build/$(APP) build/$(APP).bin
+	@ $(GCC)as -o build/$(APP).o $(APP).s
+	@ $(GCC)ld -o build/$(APP) build/$(APP).o
+	@ $(GCC)objcopy -S -O binary build/$(APP) build/$(APP).bin
 
 
 openocd:
-	@ $(OPENOCD_CMD) -f $(OPENOCD_DIR)/scripts/interface/$(INTERFACE).cfg -f $(ENV_DIR)/rpiz2w.cfg
+	@ $(OOCD) -f $(OPENOCD_DIR)/scripts/interface/$(INTERFACE).cfg -c "bindto 0.0.0.0" -f env/rpiz2w.cfg
+
+stop_openocd:
+	@ $(KOOCD) 
+
+restart_openocd: stop_openocd openocd
+
+start_docker:
+	@ docker start $(CONT)
 
 gdb:
 	@ $(GDB_CMD) build/main.elf -x $(ENV_DIR)/init.tcl

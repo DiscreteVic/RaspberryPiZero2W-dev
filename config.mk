@@ -1,15 +1,20 @@
 
+CONT=zero2w-cont
+RMT_CMD=docker exec -w="/root/shared" $(CONT)
+
+GCC=$(RMT_CMD) arm-none-eabi-
+
+OOCD=$(RMT_CMD) openocd
+KOOCD=$(RMT_CMD) killall openocd
 
 # BUILD VARIABLES
 ARCH=arm-none-eabi-
 BUILD_DIR=build
 SRC_DIR=src
+ENV_DIR=env
 
 # DEBUGGING VARIABLES
-ENV_DIR=env
 OPENOCD_CMD=openocd
-GDB_CMD=$(ARCH)gdb
 OPENOCD_DIR=/usr/local/share/openocd
-OPENOCD_GDB_ADDR=localhost
-OPENOCD_GDB_PORT=3333
+GDB_CMD=gdb-multiarch
 INTERFACE=jlink
