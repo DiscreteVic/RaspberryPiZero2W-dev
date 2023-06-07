@@ -2,7 +2,7 @@ include config.mk
 
 APP=main
 
-CFLAGS = -mtune=cortex-a53 -Wall -O2 -ffreestanding -Iinc
+CFLAGS = -mtune=cortex-a53 -Wall -O2 -ffreestanding -Iinc 
 LDFLAGS =-nostdlib -T ld/linker.ld
 
 all: clean build
@@ -39,6 +39,10 @@ start_docker:
 gdb:
 	@ $(GDB_CMD) build/main.elf -x $(ENV_DIR)/init.tcl
 	# @ $(GDB_CMD) -tui -x $(ENV_DIR)/init_v2.tcl
+
+image:
+	@ $(GCC)objcopy -S -I binary -O elf32-little --change-section-address .data=0xE000 img/bee.bin img/bee.elf
+
 
 clean:
 	@ rm -rf build/

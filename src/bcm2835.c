@@ -7,7 +7,9 @@ void setWordRegister(uint32_t addr, uint32_t value){
 }
 
 uint32_t getWordRegister(uint32_t addr){
-    return *((volatile uint32_t*)addr);
+	uint32_t reg = *((volatile uint32_t*)addr);
+	*((volatile uint32_t*)addr);
+    return reg;
 }
 
 uint8_t BCM2835_configGPIOPin(uint8_t pin, uint16_t funct){ // TO DO ERROR WRITING same reg twice
