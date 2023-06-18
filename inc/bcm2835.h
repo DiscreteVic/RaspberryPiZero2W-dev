@@ -130,4 +130,9 @@ void BCM2835_videoBlackScreen();
 
 void BCM2835_videoColorScreen(uint32_t col);
 
+
+void setCodifiedImg(uint16_t x, uint16_t y, uint32_t px, uint32_t membase);
+
+uint32_t BCM2835_getFrameBuffAdd();
+
 #endif 

@@ -6,6 +6,6 @@ monitor reset halt
 load img/bee.elf 
 load
 b main
-#b BCM2835_hard_waitms
+#b BCM2835_DMASetUp
 cont
 layout src

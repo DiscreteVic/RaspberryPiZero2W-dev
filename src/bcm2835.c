@@ -268,6 +268,19 @@ void BCM2835_videoInit()
     
 }
 
+void setCodifiedImg(uint16_t x, uint16_t y, uint32_t px, uint32_t membase){
+
+    uint32_t offs = (y * pitch) + (x * 4);
+
+
+    setWordRegister((uint32_t)(membase + offs), px);
+
+}
+
+uint32_t BCM2835_getFrameBuffAdd(){
+	return (uint32_t)frameBuff;
+}
+
 void BCM2835_videoDrawPixel(uint32_t x, uint32_t y, uint32_t attr)
 {
     uint32_t offs = (y * pitch) + (x * 4);
