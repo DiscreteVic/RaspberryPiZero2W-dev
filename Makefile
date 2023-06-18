@@ -2,7 +2,7 @@ include config.mk
 
 APP=main
 
-CFLAGS = -mtune=cortex-a53 -Wall -O2 -ffreestanding -Iinc 
+CFLAGS = -g -mtune=cortex-a53 -Wall -O2 -ffreestanding -Iinc
 LDFLAGS =-nostdlib -T ld/linker.ld
 
 all: clean build
