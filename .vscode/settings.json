@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "bcm2835.h": "c"
+        "bcm2835.h": "c",
+        "bcm2835_common.h": "c",
+        "bcm2835_uart.h": "c",
+        "bcm2835_timer.h": "c",
+        "bcm2835_video.h": "c",
+        "bcm2835_dma.h": "c"
     }
 }

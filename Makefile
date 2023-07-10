@@ -1,22 +1,38 @@
 include config.mk
 
+SOURCES := $(shell find . -type f -name '*.c')
+OBJECTS := $(subst .c,.o,$(SOURCES))
+BL := $(shell find . -type f -name '*.s')
+OBJECTS += $(subst .s,.o,$(BL))
+
+INCLUDES := $(shell find . -type f -name '*.h')
+INC_DIRS := $(dir $(INCLUDES))
+INC_FLAGS := $(subst ./,-I,$(INC_DIRS))
+
 APP=main
 
-CFLAGS = -g -mtune=cortex-a53 -Wall -O2 -ffreestanding -Iinc
+CFLAGS = -g -mtune=cortex-a53 -Wall -O2 -ffreestanding $(INC_FLAGS)
 LDFLAGS =-nostdlib -T ld/linker.ld
 
 all: clean build
 
-build: bcm2835.o  main.o
-	@ $(GCC)as -o  build/ldr.o env/bootloader/ldr.s
-	@ $(GCC)ld $(LDFLAGS) $(BUILD_DIR)/*.o -o $(BUILD_DIR)/$(APP).elf
+build: $(OBJECTS)
+	@ $(GCC)ld $(LDFLAGS) $(subst ./,build/,$(OBJECTS)) -o $(BUILD_DIR)/$(APP).elf
 	@ $(GCC)objcopy -O binary $(BUILD_DIR)/$(APP).elf $(BUILD_DIR)/$(APP).bin
 
+info:
+	$(info $(OBJECTS))
+	$(info $(SOURCES))
+	$(info $(BL))
+	$(info $(INC_FLAGS))
 
-%.o: src/%.c
-	@ mkdir -p build/
-	@ $(GCC)gcc $(CFLAGS) -c $< -o build/$@
+%.o: %.c
+	@ mkdir -p $(BUILD_DIR)/$(dir $@)
+	@ $(GCC)gcc $(CFLAGS) -c $< -o $(BUILD_DIR)/$@
 
+%.o: %.s
+	@ mkdir -p $(BUILD_DIR)/$(dir $@)
+	@ $(GCC)as -o $(BUILD_DIR)/$@ $<
 
 assemble: 
 	@ mkdir -p build/
@@ -39,9 +55,6 @@ start_docker:
 gdb:
 	@ $(GDB_CMD) build/main.elf -x $(ENV_DIR)/init.tcl
 	# @ $(GDB_CMD) -tui -x $(ENV_DIR)/init_v2.tcl
-
-image:
-	@ $(GCC)objcopy -S -I binary -O elf32-little --change-section-address .data=0xE000 img/bee.bin img/bee.elf
 
 
 clean:
