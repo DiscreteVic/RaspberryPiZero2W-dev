@@ -53,7 +53,7 @@ void BCM2835_UART_printString(uint8_t *arr) {
 
 }
 
-void BCM2835_UARTPrintRegister(uint32_t reg) {
+void BCM2835_UART_printWord(uint32_t reg) {
 	
 	uint8_t i;
 
