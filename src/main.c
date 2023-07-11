@@ -14,6 +14,13 @@ uint32_t pix, r, g, b;
 
 uint8_t multiplier = 16;
 
+#define old_location   0xE000
+#define new_location   0x60000
+#define img_size   0x10AE00
+
+BCM2835_DMA_block_t bk;
+
+uint32_t fBuff_add;
 
 void main(void) {
     BCM2835_UART_config();
@@ -72,11 +79,14 @@ void main(void) {
     BCM2835_UART_printString((uint8_t *)"LOADED ");
     fBuff_add = BCM2835_VIDEO_getFrameBuffAdd();
     
-    BCM2835_DMASetUp();
+    BCM2835_DMA_configBlock(&bk, new_location, fBuff_add, img_size);
+
+    BCM2835_DMA_enableChannel(0);
+    BCM2835_DMA_transferBlock(0, bk);
 
 
     BCM2835_TIMER_hard_waitms(5000);
-    //BCM2835_videoBlackScreen();
+    
     BCM2835_UART_printString((uint8_t *)"\nIMG ");
 	while (1);
 
